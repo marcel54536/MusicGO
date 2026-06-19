@@ -79,7 +79,9 @@ Detalles de diseño, principios y convenciones: **[CLAUDE.md](CLAUDE.md)**.
 app los lee al iniciar y los reescribe en caliente (en un hilo de fondo) ante
 cualquier cambio. `reproducciones.json` se genera solo para el ranking.
 
-## 👥 Para el equipo
+## 👥 Equipo
+
+**Integrantes:** Marcel Garavito · Miguel Cárdenas · Andrés G.
 
 Antes de modificar el proyecto, lee **[CONTRIBUTING.md](CONTRIBUTING.md)**
 (reglas de ramas, PRs, MVC y límite de 300 líneas). El histórico de cambios de
