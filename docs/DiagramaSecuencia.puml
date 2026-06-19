@@ -1,0 +1,128 @@
+@startuml DiagramaSecuencia_GestionPlaylists
+' Diagrama de secuencia - Caso de uso: Gestion de Playlists
+' Escenario: el usuario crea una playlist y le agrega un audio del catalogo
+' Catedra POO - UCAB - Prof. Marcel Castro
+
+skinparam shadowing false
+skinparam sequenceArrowThickness 1.5
+skinparam sequenceParticipantBorderColor #444444
+skinparam sequenceLifeLineBorderColor #888888
+
+title Caso de Uso: Gestion de Playlists - Crear y Agregar Audio
+
+actor Usuario as U
+participant ":MenuPlaylists" as MP
+participant ":GestorUsuarios" as GU
+participant ":GestorPlaylists" as GP
+participant ":GestorCatalogo" as GC
+participant "u:Usuario" as US
+participant "b:Biblioteca" as BI
+participant "p:Playlist" as PL
+participant "a:Audio" as AU
+
+== Seleccion de usuario ==
+U -> MP : ejecutar opcion "Gestion de Playlists"
+activate MP
+MP -> U : pedir alias
+U --> MP : alias
+MP -> GU : buscar(alias)
+activate GU
+GU --> MP : u:Usuario
+deactivate GU
+
+== Crear playlist ==
+U -> MP : opcion "Crear playlist"
+MP -> U : pedir nombre
+U --> MP : nombre
+MP -> GP : crearPlaylist(u, nombre)
+activate GP
+
+GP -> GP : generarSiguienteId()
+note right of GP
+  Genera id "P001",
+  "P002", ... con
+  contador interno
+end note
+
+create PL
+GP -> PL : new Playlist(id, nombre, alias)
+activate PL
+PL --> GP : p
+deactivate PL
+
+GP -> US : getBiblioteca()
+activate US
+US --> GP : b
+deactivate US
+
+GP -> BI : agregarPlaylist(p)
+activate BI
+BI --> GP : ok
+deactivate BI
+
+GP --> MP : Mensaje(CONFIRMACION)
+deactivate GP
+
+MP --> U : "Playlist creada con id Pxxx"
+
+== Agregar audio a la playlist ==
+U -> MP : opcion "Agregar audio"
+MP -> U : pedir idPlaylist, idAudio
+U --> MP : idPlaylist, idAudio
+
+MP -> GP : agregarAudioAPlaylist(u, idPlaylist, idAudio)
+activate GP
+
+GP -> US : getBiblioteca()
+activate US
+US --> GP : b
+deactivate US
+
+GP -> BI : buscarPorId(idPlaylist)
+activate BI
+BI --> GP : p
+deactivate BI
+
+alt p == null
+    GP --> MP : Mensaje(ERROR, "Playlist no existe")
+else playlist encontrada
+    GP -> GC : buscarAudio(idAudio)
+    activate GC
+    GC --> GP : a
+    deactivate GC
+
+    alt a == null
+        GP --> MP : Mensaje(ERROR, "Audio no existe")
+    else audio encontrado
+        GP -> PL : agregarAudio(a)
+        activate PL
+        PL -> PL : verificarDuplicado(a.id)
+        PL --> GP : true
+        deactivate PL
+
+        GP -> US : refrescarConteoBiblioteca()
+        activate US
+        US -> BI : totalCanciones()
+        activate BI
+        BI --> US : n
+        deactivate BI
+        US --> GP : ok
+        deactivate US
+
+        GP --> MP : Mensaje(CONFIRMACION, "Audio agregado")
+    end
+end
+deactivate GP
+
+MP --> U : mostrar resultado
+deactivate MP
+
+== Persistencia (al salir del menu principal) ==
+note over U, AU
+  Al salir de la aplicacion el MenuPrincipal
+  invoca GestorUsuarios.guardar() que serializa
+  a JSON el estado completo (usuarios, playlists,
+  estadisticas, compras).
+end note
+
+@enduml

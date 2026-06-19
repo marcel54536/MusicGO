@@ -1,0 +1,127 @@
+{
+  "audios": [
+    {
+      "tipo": "cancion",
+      "id": "C001",
+      "titulo": "Bohemian Rhapsody",
+      "duracion": 354,
+      "artista": "Queen",
+      "album": "A Night at the Opera",
+      "genero": "Rock",
+      "clasificacion": "APTO_TODO_PUBLICO"
+    },
+    {
+      "tipo": "cancion",
+      "id": "C002",
+      "titulo": "Smells Like Teen Spirit",
+      "duracion": 301,
+      "artista": "Nirvana",
+      "album": "Nevermind",
+      "genero": "Grunge",
+      "clasificacion": "EXPLICITO"
+    },
+    {
+      "tipo": "cancion",
+      "id": "C003",
+      "titulo": "Despacito",
+      "duracion": 228,
+      "artista": "Luis Fonsi",
+      "album": "Vida",
+      "genero": "Reggaeton",
+      "clasificacion": "EXPLICITO"
+    },
+    {
+      "tipo": "cancion",
+      "id": "C004",
+      "titulo": "Shape of You",
+      "duracion": 233,
+      "artista": "Ed Sheeran",
+      "album": "Divide",
+      "genero": "Pop",
+      "clasificacion": "APTO_TODO_PUBLICO"
+    },
+    {
+      "tipo": "cancion",
+      "id": "C005",
+      "titulo": "Believer",
+      "duracion": 204,
+      "artista": "Imagine Dragons",
+      "album": "Evolve",
+      "genero": "Pop Rock",
+      "clasificacion": "APTO_TODO_PUBLICO"
+    },
+    {
+      "tipo": "episodio",
+      "id": "E001",
+      "titulo": "El origen del universo",
+      "duracion": 2450,
+      "anfitrion": "Luis Quevedo",
+      "podcast": "La Ciencia del Futuro",
+      "descripcion": "Charla sobre el Big Bang y las teorias actuales de la cosmologia.",
+      "episodio": 12,
+      "clasificacion": "APTO_TODO_PUBLICO"
+    },
+    {
+      "tipo": "episodio",
+      "id": "E002",
+      "titulo": "Como invertir tu primer sueldo",
+      "duracion": 1860,
+      "anfitrion": "Andrea Sosa",
+      "podcast": "Finanzas Claras",
+      "descripcion": "Recomendaciones practicas para empezar en el mundo financiero.",
+      "episodio": 5,
+      "clasificacion": "APTO_TODO_PUBLICO"
+    },
+    {
+      "tipo": "episodio",
+      "id": "E003",
+      "titulo": "Inteligencia artificial: mitos y realidades",
+      "duracion": 3120,
+      "anfitrion": "Carlos Mendez",
+      "podcast": "Tecnologia Hoy",
+      "descripcion": "Que puede y que NO puede hacer la IA actual.",
+      "episodio": 21,
+      "clasificacion": "APTO_TODO_PUBLICO"
+    }
+  ],
+  "productos": [
+    {
+      "tipo": "arte_visual",
+      "id": "P001",
+      "nombre": "Wallpaper 4K - A Night at the Opera",
+      "precio": 4.99,
+      "descripcion": "Pack de 5 wallpapers en 4K del album A Night at the Opera.",
+      "album": "A Night at the Opera",
+      "artista": "Queen",
+      "formato": "PNG 4K"
+    },
+    {
+      "tipo": "arte_visual",
+      "id": "P002",
+      "nombre": "Cover Art Nevermind",
+      "precio": 2.50,
+      "descripcion": "Imagen de alta resolucion de la portada de Nevermind.",
+      "album": "Nevermind",
+      "artista": "Nirvana",
+      "formato": "PNG"
+    },
+    {
+      "tipo": "paquete_top_ten",
+      "id": "P003",
+      "nombre": "Top Ten Pop 2025",
+      "precio": 9.99,
+      "descripcion": "Las 10 canciones pop mas escuchadas del ano.",
+      "tematica": "Pop 2025",
+      "idsCanciones": ["C003", "C004", "C005"]
+    },
+    {
+      "tipo": "paquete_top_ten",
+      "id": "P004",
+      "nombre": "Top Ten Rock Clasico",
+      "precio": 12.99,
+      "descripcion": "Coleccion de clasicos del rock.",
+      "tematica": "Rock Clasico",
+      "idsCanciones": ["C001", "C002"]
+    }
+  ]
+}

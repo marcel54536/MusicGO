@@ -1,0 +1,243 @@
+@startuml DiagramaClases_MusicGO
+' Diagrama de clases - Plataforma MusicGO
+' Catedra POO - UCAB - Prof. Marcel Castro
+' Fase 1
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam classBackgroundColor #FAFAFA
+skinparam classBorderColor #444444
+skinparam ArrowColor #444444
+skinparam packageStyle rectangle
+
+title Diagrama de Clases - MusicGO (Fase 1)
+
+' ====== INTERFACES ======
+package "interfaces" {
+    interface Identificable {
+        +getId(): String
+    }
+
+    interface Reproducible {
+        +reproducir(): void
+        +getDuracionSegundos(): int
+        +getTitulo(): String
+    }
+
+    interface Comprable {
+        +getPrecio(): double
+        +getDescripcion(): String
+    }
+}
+
+' ====== JERARQUIA DE AUDIO ======
+package "modelo (audios)" {
+    abstract class Audio {
+        -id: String
+        -titulo: String
+        -duracionSegundos: int
+        +Audio(id, titulo, duracionSegundos)
+        +getId(): String
+        +getTitulo(): String
+        +getDuracionSegundos(): int
+        +duracionFormateada(): String
+        {abstract} +reproducir(): void
+        {abstract} +getTipo(): String
+    }
+
+    class Cancion {
+        -artista: String
+        -album: String
+        -genero: String
+        +reproducir(): void
+        +getTipo(): String
+    }
+
+    class EpisodioPodcast {
+        -anfitrion: String
+        -nombrePodcast: String
+        -descripcion: String
+        -numeroEpisodio: int
+        +reproducir(): void
+        +getTipo(): String
+    }
+}
+
+' ====== JERARQUIA DE PRODUCTO ======
+package "modelo (productos)" {
+    abstract class Producto {
+        -id: String
+        -nombre: String
+        -precio: double
+        +Producto(id, nombre, precio)
+        +getId(): String
+        +getPrecio(): double
+        +getDescripcion(): String
+        {abstract} +getTipo(): String
+        {abstract} +mostrarDetalle(): void
+    }
+
+    class ArteVisualAlbum {
+        -albumAsociado: String
+        -artista: String
+        -formato: String
+        +mostrarDetalle(): void
+        +getTipo(): String
+    }
+
+    class PaqueteTopTen {
+        -tematica: String
+        -idsCanciones: List<String>
+        +mostrarDetalle(): void
+        +getTipo(): String
+    }
+}
+
+' ====== USUARIO Y AGREGADOS ======
+package "modelo (usuario)" {
+    class Usuario {
+        -alias: String
+        -correo: String
+        -biblioteca: Biblioteca
+        -estadisticas: Estadisticas
+        -compras: List<Compra>
+        +Usuario(alias, correo)
+        +getId(): String
+        +getAlias(): String
+        +getCorreo(): String
+        +setCorreo(correo): void
+        +getBiblioteca(): Biblioteca
+        +getEstadisticas(): Estadisticas
+        +getCompras(): List<Compra>
+        +registrarCompra(c): void
+        +refrescarConteoBiblioteca(): void
+    }
+
+    class Biblioteca {
+        -playlists: List<Playlist>
+        +agregarPlaylist(p): boolean
+        +eliminarPlaylist(id): boolean
+        +buscarPorId(id): Playlist
+        +getPlaylists(): List<Playlist>
+        +totalCanciones(): int
+    }
+
+    class Playlist {
+        -id: String
+        -nombre: String
+        -aliasPropietario: String
+        -contenido: List<Audio>
+        +Playlist(id, nombre, aliasPropietario)
+        +getId(): String
+        +getNombre(): String
+        +getAudios(): List<Audio>
+        +agregarAudio(a): boolean
+        +removerAudio(idAudio): boolean
+        +duracionTotalSegundos(): int
+    }
+
+    class Estadisticas {
+        -tiempoEscuchaSegundos: long
+        -cancionesEnBiblioteca: int
+        -comprasRealizadas: int
+        -reproduccionesTotales: int
+        +sumarTiempoEscucha(s): void
+        +incrementarReproducciones(): void
+        +tiempoFormateado(): String
+        +setCancionesEnBiblioteca(n): void
+        +incrementarCompras(): void
+    }
+
+    class Compra {
+        -idProducto: String
+        -aliasUsuario: String
+        -montoPagado: double
+        -fecha: LocalDateTime
+        +Compra(idProducto, alias, monto, fecha)
+        +getIdProducto(): String
+        +getMontoPagado(): double
+        +getFecha(): LocalDateTime
+    }
+}
+
+' ====== CATALOGO Y MENSAJE ======
+package "modelo (sistema)" {
+    class Catalogo {
+        -contenido: List<Audio>
+        -productos: List<Producto>
+        +agregarAudio(a): void
+        +agregarProducto(p): void
+        +buscarAudio(id): Audio
+        +buscarProducto(id): Producto
+        +soloCanciones(): List<Cancion>
+        +soloPodcasts(): List<EpisodioPodcast>
+        +getProductos(): List<Producto>
+    }
+
+    class Mensaje {
+        -emisor: String
+        -receptor: String
+        -tipo: Tipo
+        -contenido: String
+        -fecha: LocalDateTime
+        +getTipo(): Tipo
+        +getContenido(): String
+    }
+
+    enum "Mensaje.Tipo" as MensajeTipo {
+        REPRODUCIR
+        COMPRAR
+        CONFIRMACION
+        ERROR
+        INFO
+    }
+}
+
+' ====== HERENCIA ======
+Audio --|> Reproducible
+Audio ..|> Identificable
+Cancion --|> Audio
+EpisodioPodcast --|> Audio
+
+Producto ..|> Comprable
+Producto ..|> Identificable
+ArteVisualAlbum --|> Producto
+PaqueteTopTen --|> Producto
+
+Usuario ..|> Identificable
+Playlist ..|> Identificable
+
+' ====== COMPOSICION (rombo lleno) ======
+Usuario "1" *-- "1" Biblioteca : posee >
+Usuario "1" *-- "1" Estadisticas : registra >
+
+' ====== AGREGACION (rombo vacio) ======
+Biblioteca "1" o-- "0..*" Playlist : contiene >
+Playlist "1" o-- "0..*" Audio : agrupa >
+Catalogo "1" o-- "0..*" Audio : ofrece >
+Catalogo "1" o-- "0..*" Producto : ofrece >
+
+' ====== ASOCIACION ======
+Usuario "1" --> "0..*" Compra : realiza >
+Compra ..> Producto : referencia (idProducto)
+PaqueteTopTen ..> Cancion : referencia (idsCanciones)
+Mensaje +-- MensajeTipo
+
+note right of Audio
+  Clase abstracta. Define comportamiento
+  comun para Cancion y EpisodioPodcast.
+  reproducir() es polimorfico.
+end note
+
+note bottom of Producto
+  Clase abstracta para items comprables
+  no reproducibles (artes visuales,
+  paquetes top ten, etc.)
+end note
+
+note left of Biblioteca
+  Composicion: si se elimina al Usuario,
+  su Biblioteca se destruye con el.
+end note
+
+@enduml

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MusicGO — Guía de Defensa Fase 2</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+         color: #1d1d1f; font-size: 10.7pt; line-height: 1.55; margin: 0; }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { font-size: 19pt; border-bottom: 2px solid #fa243c; padding-bottom: 5px; }
+  h2 { font-size: 14pt; color: #c81e30; margin-top: 22px; }
+  h3 { font-size: 11.5pt; margin-bottom: 3px; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9.2pt;
+         background: #f2f2f5; padding: 1px 5px; border-radius: 4px; }
+  pre { background: #f5f5f7; border: 1px solid #e3e3e8; border-radius: 8px; padding: 11px 13px;
+        font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 8.8pt; white-space: pre-wrap; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 9.6pt; }
+  th, td { border: 1px solid #e3e3e8; padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: #fbe9ec; color: #c81e30; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center;
+           page-break-after: always; }
+  .cover .brand { font-size: 44pt; font-weight: 800; color: #fa243c; }
+  .cover .sub { font-size: 16pt; color: #6e6e73; margin-top: 4px; }
+  .cover .box { margin-top: 36px; border-top: 1px solid #e3e3e8; padding-top: 18px; font-size: 11pt; }
+  .cover .box b { color: #6e6e73; font-weight: 600; }
+  .step { background: #fbe9ec; border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+  .step b { color: #c81e30; }
+  .sec { page-break-before: always; }
+  .q { font-weight: 700; color: #1d1d1f; margin-top: 12px; }
+  .a { margin: 3px 0 0 0; }
+  .check { list-style: none; padding-left: 0; }
+  .check li { padding: 3px 0 3px 26px; position: relative; }
+  .check li::before { content: "✓"; position: absolute; left: 0; color: #fa243c; font-weight: bold; }
+  footer { margin-top: 26px; border-top: 1px solid #e3e3e8; padding-top: 8px; font-size: 8.5pt; color: #6e6e73; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="brand">MusicGO</div>
+  <div class="sub">Guía de Defensa — Fase 2</div>
+  <div class="box">
+    <p><b>Cátedra:</b> Programación Orientada a Objetos · UCAB</p>
+    <p><b>Profesor:</b> Marcel J. Castro G.</p>
+    <p><b>Equipo:</b> Equipo MusicGO</p>
+    <p><b>Defensa grupal:</b> 03-07-26 &nbsp;·&nbsp; <b>Defensa individual:</b> 10-07-26</p>
+  </div>
+</div>
+
+<h1>1. Guion de la demostración (defensa grupal)</h1>
+<p>Sigue estos pasos en orden; cubren todos los requerimientos del enunciado.</p>
+
+<div class="step"><b>0. Arranque:</b> <code>./mvnw javafx:run</code>. Aparece el login.</div>
+<div class="step"><b>1. Admin:</b> entra como <code>admin</code> / <code>admin123</code>.
+  Crea una canción nueva (marca clasificación <i>Explícito</i> en una para la demo de control parental),
+  edita una y elimina otra. Resalta que todo se guarda solo (en JSON, en hilo de fondo).</div>
+<div class="step"><b>2. Tiempo real:</b> cierra sesión y entra como usuario <code>rocker99</code>.
+  Muestra que la canción creada por el admin <b>ya aparece</b> en el catálogo.</div>
+<div class="step"><b>3. Explorar:</b> usa los filtros (Canciones / Podcasts / Productos) en la cuadrícula.</div>
+<div class="step"><b>4. Reproducir:</b> dale play a una canción; observa la barra de progreso y los metadatos.</div>
+<div class="step"><b>5. Control parental:</b> entra como <code>podcastlover</code> (lo tiene activo) e intenta
+  reproducir contenido explícito → aparece la advertencia que bloquea la reproducción.</div>
+<div class="step"><b>6. Playlists:</b> crea una playlist, agrégale audios desde el catálogo, quita uno.</div>
+<div class="step"><b>7. Compartir:</b> comparte la playlist con otro alias; inicia sesión como ese usuario
+  y muéstrala en "Compartidas conmigo".</div>
+<div class="step"><b>8. Pagos:</b> compra un producto probando los <b>tres medios</b>: tarjeta
+  (valida formato), transferencia (valida cuenta) y saldo virtual. Provoca un
+  error (tarjeta inválida o fondos insuficientes) para mostrar la alerta controlada.</div>
+<div class="step"><b>9. Dashboard:</b> abre Estadísticas; muestra el Top de más reproducidos y recarga saldo.</div>
+
+<h1 class="sec">2. Mapa de la arquitectura (qué archivo hace qué)</h1>
+<table>
+  <tr><th>Requerimiento</th><th>Archivos clave</th></tr>
+  <tr><td>Entrada / navegación</td><td><code>MusicGoApp</code>, <code>app/AppContext</code>, <code>app/Router</code></td></tr>
+  <tr><td>Login y perfiles</td><td><code>vista/LoginVista</code>, <code>controlador/LoginControlador</code>, <code>servicios/GestorAutenticacion</code></td></tr>
+  <tr><td>Back-office (CRUD)</td><td><code>vista/admin/*</code>, <code>controlador/AdminControlador</code>, <code>servicios/GestorCatalogo</code></td></tr>
+  <tr><td>Pagos (ISP/Strategy)</td><td><code>interfaces/pago/*</code>, <code>modelo/pago/*</code>, <code>servicios/pago/ProcesadorPago</code></td></tr>
+  <tr><td>Control parental</td><td><code>modelo/Clasificacion</code>, <code>servicios/GestorReproduccion</code>, <code>excepciones/ContenidoRestringidoException</code></td></tr>
+  <tr><td>Compartir playlist</td><td><code>servicios/GestorPlaylists</code>, <code>controlador/PlaylistControlador</code></td></tr>
+  <tr><td>Dashboard / Top</td><td><code>servicios/GestorEstadisticas</code>, <code>vista/usuario/DashboardVista</code></td></tr>
+  <tr><td>Persistencia en hilos</td><td><code>persistencia/ServicioPersistencia</code>, <code>persistencia/Mapeador*</code></td></tr>
+</table>
+
+<h1 class="sec">3. SOLID en el código (defensa individual)</h1>
+<p>Si el profesor pide señalar cada principio, usa estas respuestas y abre el archivo.</p>
+
+<p class="q">SRP — ¿una clase, una responsabilidad?</p>
+<p class="a">Cada gestor hace una sola tarea. Ej.: <code>GestorAutenticacion</code> solo
+valida credenciales; el mapeo JSON vive aparte en los <code>Mapeador*</code>, no en el gestor.</p>
+
+<p class="q">OCP — ¿abierto a extensión, cerrado a modificación?</p>
+<p class="a">Para añadir un medio de pago creo una clase que implemente <code>MedioPago</code>;
+<code>ProcesadorPago</code> no se toca. Igual con un tipo de audio nuevo: extiendo
+<code>Audio</code> y el reproductor sigue igual (polimorfismo).</p>
+
+<p class="q">LSP — ¿los subtipos sustituyen al base?</p>
+<p class="a"><code>FondosInsuficientesException</code> extiende <code>PagoRechazadoException</code>:
+el controlador puede capturar la base y el flujo funciona con cualquier subtipo.</p>
+
+<p class="q">ISP — ¿interfaces pequeñas?</p>
+<p class="a">La pasarela usa <code>RequiereTarjeta</code>, <code>RequiereCuentaBancaria</code>
+y <code>UsaSaldoVirtual</code>. <code>SaldoVirtual</code> no arrastra métodos de tarjeta;
+nadie implementa métodos vacíos.</p>
+
+<p class="q">DIP — ¿se depende de abstracciones?</p>
+<p class="a">Los controladores reciben los servicios desde <code>AppContext</code>
+(composition root). Dependen de las clases de servicio/abstracciones, no construyen
+sus propias dependencias.</p>
+
+<h1 class="sec">4. Pilares de la POO</h1>
+<table>
+  <tr><th>Pilar</th><th>Ejemplo en MusicGO</th></tr>
+  <tr><td><b>Abstracción</b></td><td>Clases abstractas <code>Audio</code> y <code>Producto</code>;
+      interfaces <code>Reproducible</code>, <code>Comprable</code>, <code>MedioPago</code>.</td></tr>
+  <tr><td><b>Encapsulamiento</b></td><td>Atributos privados con getters/setters validados;
+      <code>Administrador</code> oculta la clave y solo expone <code>credencialesValidas()</code>.</td></tr>
+  <tr><td><b>Herencia</b></td><td><code>Cancion</code> y <code>EpisodioPodcast</code> heredan de <code>Audio</code>;
+      <code>ArteVisualAlbum</code> y <code>PaqueteTopTen</code> de <code>Producto</code>.</td></tr>
+  <tr><td><b>Polimorfismo</b></td><td><code>creditos()</code> y <code>detalle()</code> se resuelven según
+      el tipo concreto; cada <code>MedioPago</code> ejecuta su propio <code>procesar()</code>.</td></tr>
+</table>
+
+<h1 class="sec">5. Prueba de modificación "en caliente"</h1>
+<p>El profesor puede pedir un cambio modular en vivo. Aquí está dónde tocar:</p>
+<table>
+  <tr><th>Si te piden…</th><th>Haces…</th></tr>
+  <tr><td>"Agrega un medio de pago (ej. PayPal)"</td>
+      <td>Nueva clase en <code>modelo/pago/</code> que implemente <code>MedioPago</code>
+      (y su interfaz específica si aplica) + una opción en <code>DialogoPago</code>. Nada más.</td></tr>
+  <tr><td>"Agrega un atributo a Canción"</td>
+      <td>Campo + getter/setter en <code>Cancion</code>, leer/escribir en
+      <code>MapeadorCatalogo</code>, y el campo en <code>DialogosCatalogo</code>.</td></tr>
+  <tr><td>"Agrega una pantalla nueva"</td>
+      <td>Nueva <code>*Vista</code> (solo UI) + nuevo <code>*Controlador</code>; enlázala en el
+      coordinador y el <code>Router</code>.</td></tr>
+  <tr><td>"Cambia la estética"</td><td>Solo <code>resources/.../estilos.css</code>.</td></tr>
+  <tr><td>"Agrega un nivel de clasificación"</td><td>Una constante en el enum <code>Clasificacion</code>.</td></tr>
+</table>
+
+<h1 class="sec">6. Preguntas frecuentes</h1>
+<p class="q">¿Por qué JavaFX en código y no FXML?</p>
+<p class="a">Para tener control total y mantener el MVC con una fábrica de componentes
+reutilizable; las vistas siguen sin lógica de negocio.</p>
+
+<p class="q">¿Cómo se actualiza la app del usuario cuando el admin cambia el catálogo?</p>
+<p class="a">Con un patrón observador en <code>GestorCatalogo</code> basado en
+<code>Runnable</code> (sin acoplar el modelo a JavaFX); el controlador del usuario se
+suscribe y refresca con <code>Platform.runLater</code>.</p>
+
+<p class="q">¿Dónde están los hilos de persistencia?</p>
+<p class="a">En <code>ServicioPersistencia</code>: un <code>ExecutorService</code> de un hilo
+daemon serializa las escrituras y cierra limpio al salir.</p>
+
+<p class="q">¿Por qué no se rompe la app cuando algo falla?</p>
+<p class="a">Las reglas violadas lanzan excepciones personalizadas que el controlador
+captura con <code>try-catch</code> y muestra como <code>Alert</code>, sin tumbar el hilo de JavaFX.</p>
+
+<p class="q">¿Cómo garantizan la modularidad?</p>
+<p class="a">72 archivos, ninguno supera 300 líneas; una responsabilidad por clase.</p>
+
+<h1 class="sec">7. Checklist de requerimientos cumplidos</h1>
+<ul class="check">
+  <li>GUI JavaFX con login y dos interfaces independientes (admin / usuario).</li>
+  <li>Back-office con CRUD de catálogo y actualización en tiempo real.</li>
+  <li>Registro/login de usuario con validación de unicidad en vivo.</li>
+  <li>Exploración visual en cuadrícula que diferencia audios de productos.</li>
+  <li>Gestión avanzada de playlists con controles interactivos.</li>
+  <li>Reproductor gráfico con barra de progreso y metadatos.</li>
+  <li>Compartir Playlist por alias.</li>
+  <li>Filtro y restricción de contenido (control parental + advertencia).</li>
+  <li>Dashboard dinámico con Top de más reproducidos.</li>
+  <li>Pasarela de pagos multimodal con interfaces segregadas (ISP).</li>
+  <li>Excepciones personalizadas capturadas en el controlador.</li>
+  <li>Persistencia JSON inmediata con hilos.</li>
+  <li>MVC estricto, SOLID, KISS y modularidad (≤300 líneas/archivo).</li>
+</ul>
+
+<footer>MusicGO — Guía de Defensa Fase 2 · Cátedra POO, UCAB · Equipo MusicGO</footer>
+</body>
+</html>

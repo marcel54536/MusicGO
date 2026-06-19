@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MusicGO — Informe Fase 2</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+         color: #1d1d1f; font-size: 10.7pt; line-height: 1.55; margin: 0; }
+  h1, h2, h3 { color: #1d1d1f; line-height: 1.2; }
+  h1 { font-size: 21pt; }
+  h2 { font-size: 15pt; border-bottom: 2px solid #fa243c; padding-bottom: 4px; margin-top: 26px; }
+  h3 { font-size: 12pt; color: #c81e30; margin-bottom: 4px; }
+  a { color: #fa243c; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9.2pt;
+         background: #f2f2f5; padding: 1px 5px; border-radius: 4px; }
+  pre { background: #f5f5f7; border: 1px solid #e3e3e8; border-radius: 8px;
+        padding: 12px 14px; font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 8.8pt; line-height: 1.4; overflow-x: auto; white-space: pre-wrap; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 9.6pt; }
+  th, td { border: 1px solid #e3e3e8; padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: #fbe9ec; color: #c81e30; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center;
+           page-break-after: always; }
+  .cover .brand { font-size: 46pt; font-weight: 800; color: #fa243c; letter-spacing: -1px; }
+  .cover .sub { font-size: 16pt; color: #6e6e73; margin-top: 4px; }
+  .cover .box { margin-top: 40px; border-top: 1px solid #e3e3e8; padding-top: 20px;
+                font-size: 11pt; color: #1d1d1f; }
+  .cover .box b { color: #6e6e73; font-weight: 600; }
+  .callout { background: #fbe9ec; border-left: 4px solid #fa243c; border-radius: 6px;
+             padding: 10px 14px; margin: 12px 0; }
+  .check { list-style: none; padding-left: 0; }
+  .check li { padding: 3px 0 3px 26px; position: relative; }
+  .check li::before { content: "✓"; position: absolute; left: 0; color: #fa243c; font-weight: bold; }
+  .sec { page-break-before: always; }
+  .muted { color: #6e6e73; }
+  footer { margin-top: 30px; border-top: 1px solid #e3e3e8; padding-top: 8px;
+           font-size: 8.5pt; color: #6e6e73; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="brand">MusicGO</div>
+  <div class="sub">Plataforma de Streaming de Audio — Informe de la Fase 2</div>
+  <div class="box">
+    <p><b>Cátedra:</b> Programación Orientada a Objetos</p>
+    <p><b>Universidad:</b> UCAB — Facultad de Ingeniería · Escuela de Ing. Informática</p>
+    <p><b>Profesor:</b> Marcel J. Castro G.</p>
+    <p><b>Equipo:</b> Equipo MusicGO</p>
+    <p><b>Semestre:</b> 2026-25</p>
+    <p><b>Tema:</b> Migración a GUI JavaFX con arquitectura MVC, SOLID y KISS</p>
+  </div>
+</div>
+
+<h1>1. Introducción</h1>
+<p>Tras el éxito del motor de lógica de negocio de la Fase 1 (aplicación de
+consola), la Fase 2 lleva MusicGO a un <b>entorno gráfico moderno, seguro y
+escalable</b>. El sistema se refactorizó en profundidad bajo el patrón
+arquitectónico <b>MVC</b>, se dividió el control en dos perfiles
+(Administrador y Usuario final) y se incorporaron nuevas pasarelas de
+interacción: pagos multimodales, compartición de playlists, control parental y
+un panel dinámico de estadísticas.</p>
+
+<div class="callout">
+<b>Objetivo cumplido:</b> migrar de consola a JavaFX manteniendo el dominio del
+negocio, separando estrictamente las capas y aplicando los principios SOLID,
+KISS, DRY y modularidad (máximo 300 líneas por archivo).
+</div>
+
+<h1>2. De la Fase 1 a la Fase 2</h1>
+<table>
+  <tr><th>Aspecto</th><th>Fase 1</th><th>Fase 2</th></tr>
+  <tr><td>Interfaz</td><td>Consola de texto</td><td>GUI JavaFX (tema Apple Music light)</td></tr>
+  <tr><td>Arquitectura</td><td>Capas + servicios</td><td><b>MVC</b> estricto en capas</td></tr>
+  <tr><td>Perfiles</td><td>Uno genérico</td><td><b>Administrador</b> y <b>Usuario final</b></tr>
+  <tr><td>Pagos</td><td>Compra directa</td><td><b>Pasarela multimodal</b> (tarjeta / transferencia / saldo)</td></tr>
+  <tr><td>Restricciones</td><td>—</td><td><b>Control parental</b> sobre contenido explícito</td></tr>
+  <tr><td>Colaboración</td><td>—</td><td><b>Compartir playlists</b> entre usuarios</td></tr>
+  <tr><td>Estadísticas</td><td>Texto por usuario</td><td><b>Dashboard</b> + Top de más reproducidos</td></tr>
+  <tr><td>Persistencia</td><td>Guardado al salir</td><td><b>Inmediata, en hilos</b> de fondo</td></tr>
+  <tr><td>Build</td><td><code>javac</code> manual</td><td><b>Maven</b> + wrapper</td></tr>
+  <tr><td>Principios</td><td>DRY, KISS</td><td>+ <b>SOLID completo</b></td></tr>
+</table>
+
+<h1 class="sec">3. Arquitectura — MVC en capas</h1>
+<p>El sistema separa las responsabilidades en tres capas independientes. Las
+vistas no contienen lógica de negocio ni acceso a datos; los controladores
+coordinan; el modelo y los servicios encapsulan las reglas.</p>
+<pre>
+musicgo/
+├── MusicGoApp.java        Punto de entrada JavaFX (Application)
+├── app/                   AppContext (composition root), Router, Vista
+├── modelo/  (+ pago/)     MODELO: entidades de dominio (sin JavaFX)
+├── interfaces/ (+ pago/)  Contratos; interfaces de pago SEGREGADAS (ISP)
+├── excepciones/           Excepciones de dominio personalizadas
+├── persistencia/          Repositorio + Mapeadores JSON + persistencia async
+├── servicios/ (+ pago/)   CONTROL/negocio: "gestores" + ProcesadorPago
+├── controlador/           CONTROLADORES MVC (vista <-> servicios)
+└── vista/ (ui/admin/usuario)  VISTAS JavaFX (solo interfaz)
+</pre>
+<table>
+  <tr><th>Capa MVC</th><th>Paquetes</th><th>Responsabilidad</th></tr>
+  <tr><td><b>Modelo</b></td><td>modelo, interfaces, excepciones, servicios, persistencia</td>
+      <td>Entidades, reglas de negocio y datos. Cero dependencias de JavaFX.</td></tr>
+  <tr><td><b>Vista</b></td><td>vista</td>
+      <td>Construye la interfaz, expone controles y dispara callbacks. Sin lógica.</td></tr>
+  <tr><td><b>Controlador</b></td><td>controlador, app</td>
+      <td>Escucha eventos, invoca servicios y traduce excepciones a alertas.</td></tr>
+</table>
+
+<h1 class="sec">4. Principios de diseño aplicados</h1>
+
+<h3>SOLID</h3>
+<table>
+  <tr><th>Principio</th><th>Dónde se evidencia</th></tr>
+  <tr><td><b>SRP</b> — Responsabilidad Única</td>
+      <td>Un gestor por tarea (<code>GestorCatalogo</code>, <code>GestorPlaylists</code>,
+      <code>GestorAutenticacion</code>…). Los <code>Mapeador*</code> separan el mapeo JSON de la lógica.</td></tr>
+  <tr><td><b>OCP</b> — Abierto/Cerrado</td>
+      <td>Agregar un medio de pago o un tipo de audio/producto no obliga a modificar
+      <code>ProcesadorPago</code> ni el reproductor: basta una clase nueva.</td></tr>
+  <tr><td><b>LSP</b> — Sustitución de Liskov</td>
+      <td><code>FondosInsuficientesException</code> hereda de <code>PagoRechazadoException</code>;
+      cualquier <code>MedioPago</code> es intercambiable.</td></tr>
+  <tr><td><b>ISP</b> — Segregación de Interfaces</td>
+      <td>Pagos con interfaces pequeñas: <code>RequiereTarjeta</code>,
+      <code>RequiereCuentaBancaria</code>, <code>UsaSaldoVirtual</code>. Ningún medio
+      implementa métodos que no usa.</td></tr>
+  <tr><td><b>DIP</b> — Inversión de Dependencias</td>
+      <td>Los controladores dependen de abstracciones; <code>AppContext</code> (composition
+      root) cablea las implementaciones concretas.</td></tr>
+</table>
+
+<h3>KISS, DRY y modularidad</h3>
+<ul>
+  <li><b>KISS:</b> clases pequeñas y enfocadas; el archivo más grande tiene 271 líneas.</li>
+  <li><b>DRY:</b> la fábrica <code>Componentes</code> evita repetir UI; los
+  <code>Mapeador*</code> centralizan cada formato JSON; <code>Alertas</code> unifica los diálogos.</li>
+  <li><b>Modularidad:</b> 72 archivos, ninguno supera 300 líneas; sin monolitos.</li>
+</ul>
+
+<h1 class="sec">5. Funcionalidades de la Fase 2</h1>
+
+<h3>5.1 Doble perfil y autenticación</h3>
+<p>El arranque muestra una pantalla de login. Los administradores se validan
+contra <code>administradores.json</code> (no hay registro desde la interfaz:
+abstracción del registro). Los usuarios se registran con alias y correo, con
+<b>validación de unicidad en tiempo real</b>, e inician sesión por alias.</p>
+
+<h3>5.2 Back-office (módulo de administración)</h3>
+<p>Panel visual para dar de alta, listar, editar y eliminar canciones, podcasts
+y productos. Cualquier cambio se persiste y se <b>notifica a la app del usuario
+en tiempo real</b> mediante un patrón observador que no acopla el modelo a JavaFX.</p>
+
+<h3>5.3 Pasarela de pagos multimodal (ISP)</h3>
+<p>Al comprar un producto, el usuario elige entre <b>tarjeta de crédito</b>,
+<b>transferencia bancaria</b> o <b>saldo virtual MusicGo</b>. Cada medio aplica
+un flujo de validación distinto y solo implementa la interfaz que le
+corresponde. <code>ProcesadorPago</code> (patrón Strategy) es el único punto de cobro.</p>
+
+<h3>5.4 Control parental</h3>
+<p>Los audios tienen una clasificación (<code>APTO_TODO_PUBLICO</code> /
+<code>EXPLICITO</code>). Si el perfil tiene el control parental activo y se
+intenta reproducir contenido explícito, <code>GestorReproduccion</code> lanza
+<code>ContenidoRestringidoException</code> y el controlador muestra una
+advertencia, bloqueando la reproducción sin tumbar la app.</p>
+
+<h3>5.5 Compartir playlist</h3>
+<p>Un usuario busca a otro por su alias y le comparte una playlist; el
+destinatario la ve en su sección "Compartidas conmigo". Se persiste de inmediato.</p>
+
+<h3>5.6 Dashboard dinámico</h3>
+<p>Tarjetas con tiempo de escucha, reproducciones, biblioteca y compras, más el
+<b>Top de contenidos más reproducidos</b> de la plataforma (contador global
+persistido en <code>reproducciones.json</code>). Incluye recarga de saldo virtual.</p>
+
+<h3>5.7 Persistencia en caliente con hilos</h3>
+<p><code>ServicioPersistencia</code> guarda cada cambio en un <b>hilo daemon</b>,
+sin congelar la interfaz, y cierra de forma limpia al salir. Todo en JSON, con un
+parser/writer propio (sin librerías externas).</p>
+
+<h1 class="sec">6. Mejoras concretas respecto a la Fase 1</h1>
+<ul class="check">
+  <li>Interfaz gráfica completa que reemplaza el menú de consola.</li>
+  <li>Separación MVC estricta: el modelo ya no imprime en consola
+      (<code>reproducir()</code> → <code>creditos()</code>; <code>mostrarDetalle()</code> → <code>detalle()</code>).</li>
+  <li>Dos perfiles de acceso con interfaces independientes.</li>
+  <li>Sistema de pagos extensible con interfaces segregadas (antes: compra directa).</li>
+  <li>Robustez: excepciones personalizadas capturadas y convertidas en alertas gráficas.</li>
+  <li>Persistencia inmediata y no bloqueante (antes: solo al salir).</li>
+  <li>Build reproducible con Maven + wrapper (antes: <code>javac</code> a mano).</li>
+  <li>Nuevas reglas de negocio: control parental, compartir, ranking global.</li>
+</ul>
+
+<h1 class="sec">7. Verificación y métricas</h1>
+<table>
+  <tr><th>Indicador</th><th>Resultado</th></tr>
+  <tr><td>Compilación (<code>mvn clean compile</code>)</td><td>BUILD SUCCESS</td></tr>
+  <tr><td>Prueba de lógica end-to-end (headless)</td><td>13 / 13 PASS</td></tr>
+  <tr><td>Archivos Java</td><td>72</td></tr>
+  <tr><td>Archivos que superan 300 líneas</td><td>0 (máximo: 271)</td></tr>
+  <tr><td>Dependencias externas de JSON</td><td>0 (parser/writer propios)</td></tr>
+</table>
+<p class="muted">La prueba automatizada valida: carga de datos, login admin/usuario,
+bloqueo de contenido explícito, reproducción, pago con saldo, fondos
+insuficientes, compartir playlist, creación de playlists y CRUD del administrador.</p>
+
+<h1 class="sec">8. Cómo ejecutar</h1>
+<pre>./mvnw javafx:run        # macOS / Linux
+mvnw.cmd javafx:run      # Windows</pre>
+<p><b>Credenciales:</b> admin <code>admin</code>/<code>admin123</code>;
+usuarios <code>rocker99</code>, <code>podcastlover</code> (este con control parental).</p>
+
+<h1>9. Conclusión</h1>
+<p>MusicGO Fase 2 cumple todos los requerimientos del enunciado: GUI JavaFX,
+arquitectura MVC, doble perfil, pagos con ISP, control parental, compartición,
+dashboard y persistencia en hilos, manteniendo un código modular, optimizado y
+fiel a SOLID y KISS. La base queda preparada para crecer (nuevos medios de pago,
+tipos de contenido o pantallas) con cambios mínimos y localizados.</p>
+
+<footer>MusicGO — Informe Fase 2 · Cátedra POO, UCAB · Semestre 2026-25 · Equipo MusicGO</footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/*
+ * MusicGO - Tema visual "Apple Music light".
+ * Solo estilos (colores, tipografia, esquinas, sombras). La estructura
+ * de las vistas se arma en codigo JavaFX; aqui no hay logica (MVC).
+ */
+
+.root {
+    -fx-font-family: "SF Pro Display", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f7;
+    -accent: #fa243c;          /* rojo Apple Music */
+    -accent-dark: #d31f33;
+    -texto: #1d1d1f;
+    -texto-suave: #6e6e73;
+    -superficie: #ffffff;
+    -borde: #e3e3e8;
+}
+
+/* ----------- Tipografia ----------- */
+.titulo      { -fx-font-size: 30px; -fx-font-weight: bold;  -fx-text-fill: -texto; }
+.subtitulo   { -fx-font-size: 18px; -fx-font-weight: 600;   -fx-text-fill: -texto; }
+.texto       { -fx-font-size: 14px; -fx-text-fill: -texto; }
+.texto-suave { -fx-font-size: 13px; -fx-text-fill: -texto-suave; }
+.marca       { -fx-font-size: 26px; -fx-font-weight: bold;  -fx-text-fill: -accent; }
+
+/* ----------- Tarjetas / superficies ----------- */
+.card {
+    -fx-background-color: -superficie;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: -borde;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 18, 0, 0, 6);
+}
+.card-hover:hover {
+    -fx-border-color: -accent;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(250,36,60,0.18), 22, 0, 0, 8);
+}
+
+/* ----------- Botones ----------- */
+.btn-primary {
+    -fx-background-color: -accent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+.btn-primary:hover  { -fx-background-color: -accent-dark; }
+
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: -accent;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-border-color: -accent;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+.btn-secondary:hover { -fx-background-color: rgba(250,36,60,0.08); }
+
+.btn-ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: -texto-suave;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 6 10 6 10;
+}
+.btn-ghost:hover { -fx-text-fill: -accent; }
+
+/* ----------- Campos de texto ----------- */
+.campo {
+    -fx-background-color: #f0f0f4;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: transparent;
+    -fx-padding: 11 14 11 14;
+    -fx-font-size: 14px;
+    -fx-text-fill: -texto;
+    -fx-prompt-text-fill: -texto-suave;
+}
+.campo:focused { -fx-border-color: -accent; -fx-background-color: white; }
+
+/* ----------- Barra lateral / navegacion ----------- */
+.sidebar { -fx-background-color: -superficie; -fx-border-color: -borde; -fx-border-width: 0 1 0 0; }
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -texto;
+    -fx-font-size: 15px;
+    -fx-alignment: center-left;
+    -fx-padding: 11 16 11 16;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+.nav-item:hover    { -fx-background-color: #f0f0f4; }
+.nav-activo        { -fx-background-color: rgba(250,36,60,0.10); -fx-text-fill: -accent; -fx-font-weight: 600; }
+
+/* ----------- Barra superior / mini reproductor ----------- */
+.topbar     { -fx-background-color: -superficie; -fx-border-color: -borde; -fx-border-width: 0 0 1 0; }
+.miniplayer { -fx-background-color: -superficie; -fx-border-color: -borde; -fx-border-width: 1 0 0 0; }
+
+/* ----------- Chips / etiquetas ----------- */
+.chip {
+    -fx-background-color: #ececf1;
+    -fx-text-fill: -texto-suave;
+    -fx-background-radius: 20;
+    -fx-padding: 5 12 5 12;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.chip-activo { -fx-background-color: -accent; -fx-text-fill: white; }
+.chip-explicito { -fx-background-color: #2c2c2e; -fx-text-fill: white; -fx-background-radius: 4; -fx-padding: 2 6 2 6; -fx-font-size: 10px; }
+
+/* ----------- Barra de progreso ----------- */
+.progress-bar > .track { -fx-background-color: #e3e3e8; -fx-background-radius: 6; }
+.progress-bar > .bar   { -fx-background-color: -accent;  -fx-background-radius: 6; -fx-padding: 3; }
+
+/* ----------- Listas ----------- */
+.list-view { -fx-background-color: transparent; -fx-border-color: transparent; }
+.list-cell { -fx-background-color: transparent; -fx-text-fill: -texto; -fx-padding: 10 12 10 12; -fx-font-size: 14px; }
+.list-cell:filled:selected { -fx-background-color: rgba(250,36,60,0.10); -fx-text-fill: -accent; -fx-background-radius: 8; }
+.list-cell:filled:hover    { -fx-background-color: #f0f0f4; -fx-background-radius: 8; }

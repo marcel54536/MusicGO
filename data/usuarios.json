@@ -1,0 +1,65 @@
+[
+  {
+    "alias": "rocker99",
+    "correo": "rocker99@mail.com",
+    "saldo": 25.50,
+    "controlParental": false,
+    "estadisticas": {
+      "tiempoEscucha": 655,
+      "cancionesEnBiblioteca": 2,
+      "compras": 1,
+      "reproducciones": 2
+    },
+    "playlists": [
+      {
+        "id": "PL001",
+        "nombre": "Rock Eterno",
+        "audios": ["C001", "C002"]
+      }
+    ],
+    "compartidas": [],
+    "compras": [
+      {
+        "idProducto": "P001",
+        "monto": 4.99,
+        "fecha": "2026-04-10 18:30:00"
+      }
+    ]
+  },
+  {
+    "alias": "podcastlover",
+    "correo": "andrea@gmail.com",
+    "saldo": 8.00,
+    "controlParental": true,
+    "estadisticas": {
+      "tiempoEscucha": 4310,
+      "cancionesEnBiblioteca": 0,
+      "compras": 0,
+      "reproducciones": 2
+    },
+    "playlists": [
+      {
+        "id": "PL001",
+        "nombre": "Mis podcasts favoritos",
+        "audios": ["E001", "E003"]
+      }
+    ],
+    "compartidas": [],
+    "compras": []
+  },
+  {
+    "alias": "marcel",
+    "correo": "marcel@ucab.edu.ve",
+    "saldo": 0.0,
+    "controlParental": false,
+    "estadisticas": {
+      "tiempoEscucha": 0,
+      "cancionesEnBiblioteca": 0,
+      "compras": 0,
+      "reproducciones": 0
+    },
+    "playlists": [],
+    "compartidas": [],
+    "compras": []
+  }
+]

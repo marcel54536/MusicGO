@@ -1,0 +1,12 @@
+[
+  {
+    "usuario": "admin",
+    "clave": "admin123",
+    "nombre": "Administrador General"
+  },
+  {
+    "usuario": "marcel",
+    "clave": "musicgo2026",
+    "nombre": "Marcel Castro"
+  }
+]

@@ -1,0 +1,28 @@
+# --- Build (Maven) ---
+target/
+out/
+*.class
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+
+# --- macOS / OS ---
+.DS_Store
+Thumbs.db
+
+# --- Logs / temporales ---
+*.log
+*.tmp
+hs_err_pid*
+
+# --- Maven wrapper (se versiona el script y .properties, NO el jar descargado) ---
+.mvn/wrapper/maven-wrapper.jar
+
+# NOTA: data/*.json SÍ se versiona (catálogo, usuarios y administradores semilla).
