@@ -61,6 +61,12 @@ musicgo/
     ├── ui/                Sistema de diseño: Tema, Componentes, Alertas
     ├── admin/             Back-office
     └── usuario/           App del usuario final
+        ├── AppUsuarioVista     Armazón: sidebar 4 módulos, topbar, reproductor
+        ├── CatalogoVista       Cuadrícula + buscador en tiempo real + filtros
+        ├── PlaylistsVista      Gestión + botón "Reproducir todo"
+        ├── ComprasVista        Historial de compras + métricas de saldo
+        ├── DashboardVista      Estadísticas + Top reproducidos
+        └── ReproductorBarra    Mini reproductor fijo en la parte inferior
 ```
 
 - **Modelo** = `modelo/` + `interfaces/` + `excepciones/` + `servicios/` +
@@ -68,6 +74,15 @@ musicgo/
 - **Vista** = `vista/` (arma nodos JavaFX, expone controles, llama callbacks).
 - **Controlador** = `controlador/` (escucha eventos de la vista, invoca al
   modelo, captura excepciones y muestra alertas).
+
+### Módulos de la app de usuario
+
+| Módulo | Vista | Controlador | Función |
+|---|---|---|---|
+| Catálogo | `CatalogoVista` | `CatalogoUsuarioControlador` | Explorar, reproducir, comprar; buscador en vivo |
+| Mis playlists | `PlaylistsVista` | `PlaylistControlador` | Crear/eliminar, compartir, reproducir todo |
+| Mis compras | `ComprasVista` | `ComprasControlador` | Historial de compras y saldo actual |
+| Estadísticas | `DashboardVista` | `DashboardControlador` | Top reproducidos, métricas de uso |
 
 Recursos visuales en `src/main/resources/musicgo/vista/ui/estilos.css`
 (tema "Apple Music light"; todos los colores viven ahí).

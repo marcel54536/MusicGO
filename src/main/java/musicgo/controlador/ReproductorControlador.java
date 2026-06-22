@@ -57,6 +57,14 @@ public class ReproductorControlador {
         intentar(a);
     }
 
+    /** Reproduce una lista completa (playlist) empezando por el primero. */
+    public void reproducirCola(List<Audio> audios) {
+        if (audios == null || audios.isEmpty()) return;
+        cola = List.copyOf(audios);
+        indice = 0;
+        intentar(cola.get(0));
+    }
+
     private void intentar(Audio a) {
         try {
             ctx.reproduccion().reproducir(usuario, a.getId());

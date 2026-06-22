@@ -2,7 +2,7 @@
   {
     "alias": "rocker99",
     "correo": "rocker99@mail.com",
-    "saldo": 25.50,
+    "saldo": 25.5,
     "controlParental": false,
     "estadisticas": {
       "tiempoEscucha": 655,
@@ -14,7 +14,10 @@
       {
         "id": "PL001",
         "nombre": "Rock Eterno",
-        "audios": ["C001", "C002"]
+        "audios": [
+          "C001",
+          "C002"
+        ]
       }
     ],
     "compartidas": [],
@@ -29,7 +32,7 @@
   {
     "alias": "podcastlover",
     "correo": "andrea@gmail.com",
-    "saldo": 8.00,
+    "saldo": 8.0,
     "controlParental": true,
     "estadisticas": {
       "tiempoEscucha": 4310,
@@ -41,7 +44,10 @@
       {
         "id": "PL001",
         "nombre": "Mis podcasts favoritos",
-        "audios": ["E001", "E003"]
+        "audios": [
+          "E001",
+          "E003"
+        ]
       }
     ],
     "compartidas": [],
@@ -61,5 +67,26 @@
     "playlists": [],
     "compartidas": [],
     "compras": []
+  },
+  {
+    "alias": "marcelo",
+    "correo": "marcel@gmail.com",
+    "saldo": 95.01,
+    "controlParental": false,
+    "estadisticas": {
+      "tiempoEscucha": 883,
+      "cancionesEnBiblioteca": 0,
+      "compras": 1,
+      "reproducciones": 3
+    },
+    "playlists": [],
+    "compartidas": [],
+    "compras": [
+      {
+        "idProducto": "P001",
+        "monto": 4.99,
+        "fecha": "2026-06-19 00:18:23"
+      }
+    ]
   }
 ]

@@ -23,6 +23,7 @@ public class UsuarioControlador {
     private AppUsuarioVista shell;
     private CatalogoUsuarioControlador catalogoCtrl;
     private PlaylistControlador playlistCtrl;
+    private ComprasControlador comprasCtrl;
     private DashboardControlador dashboardCtrl;
     private Runnable observadorCatalogo;
 
@@ -39,11 +40,13 @@ public class UsuarioControlador {
         Runnable cabecera = () -> shell.actualizarSaldo(usuario.getSaldo());
 
         catalogoCtrl = new CatalogoUsuarioControlador(ctx, usuario, reproductor, cabecera);
-        playlistCtrl = new PlaylistControlador(ctx, usuario);
+        playlistCtrl = new PlaylistControlador(ctx, usuario, reproductor);
+        comprasCtrl = new ComprasControlador(ctx, usuario);
         dashboardCtrl = new DashboardControlador(ctx, usuario, cabecera);
 
         shell.getNavCatalogo().setOnAction(e -> irCatalogo());
         shell.getNavPlaylists().setOnAction(e -> irPlaylists());
+        shell.getNavCompras().setOnAction(e -> irCompras());
         shell.getNavEstadisticas().setOnAction(e -> irEstadisticas());
         shell.getControlParental().selectedProperty().addListener((o, a, activo) -> {
             usuario.setControlParental(activo);
@@ -68,6 +71,12 @@ public class UsuarioControlador {
         playlistCtrl.refrescar();
         shell.mostrarContenido(playlistCtrl.getVista().getRaiz());
         shell.marcarNav(shell.getNavPlaylists());
+    }
+
+    private void irCompras() {
+        comprasCtrl.refrescar();
+        shell.mostrarContenido(comprasCtrl.getVista().getRaiz());
+        shell.marcarNav(shell.getNavCompras());
     }
 
     private void irEstadisticas() {

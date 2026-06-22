@@ -119,8 +119,54 @@ como alertas JavaFX sin tumbar el hilo de la app:
 
 `controlador/` nuevo: `LoginControlador`, `AdminControlador`,
 `UsuarioControlador` (coordinador), `CatalogoUsuarioControlador`,
-`PlaylistControlador`, `ReproductorControlador`, `DashboardControlador`.
+`PlaylistControlador`, `ReproductorControlador`, `DashboardControlador`,
+`ComprasControlador`.
 Conectan eventos de la vista con los servicios y traducen excepciones a alertas.
+
+---
+
+## 9. Mejoras de UI/UX (iteración posterior a la entrega base)
+
+### 9.1 Módulo "Mis compras" (nuevo)
+
+- Nueva clase **`ComprasVista`**: muestra 3 métricas resumen (total gastado,
+  número de compras, saldo actual) y el historial como tarjetas con nombre del
+  producto, fecha y monto.
+- Nuevo **`ComprasControlador`**: resuelve el nombre del producto buscándolo en
+  el catálogo (el `Compra` solo guarda el ID) y pasa los datos a la vista.
+- Integrado en `UsuarioControlador` como cuarto módulo de navegación.
+
+### 9.2 Navegación con 4 módulos visibles
+
+- `AppUsuarioVista` refactorizada: 4 ítems de nav con iconos emoji
+  (`🎵 Catálogo`, `📚 Mis playlists`, `🛒 Mis compras`, `📊 Estadísticas`).
+- Perfil del usuario en la barra lateral: caratula generativa + alias + correo.
+- Chip de saldo verde `💳 Saldo: $XX.XX` en la barra superior (clase CSS
+  `.chip-saldo`; color verde `#1d8a4e` sobre fondo `#e8f7ee`).
+- Resaltado activo de nav-item al cambiar de módulo (`nav-activo`).
+
+### 9.3 Buscador en tiempo real en el catálogo
+
+- `CatalogoVista` tiene un `TextField` en la cabecera que filtra mientras el
+  usuario escribe (listener sobre `textProperty()`).
+- La búsqueda es **case-insensitive** y cruza título, créditos (artista/podcast)
+  y nombre/descripción de productos.
+- Estado vacío "Sin resultados para tu búsqueda." cuando no hay coincidencias.
+
+### 9.4 "Reproducir todo" en Playlists
+
+- Botón **▶ Reproducir todo** en `PlaylistsVista`; deshabilitado si la playlist
+  tiene 0 audios.
+- `ReproductorControlador` nuevo método `reproducirCola(List<Audio>)`: copia la
+  lista defensivamente y arranca desde el primer audio respetando el control
+  parental.
+- `PlaylistControlador` recibe el reproductor por constructor y cableya el
+  callback en el constructor (sin setter tardío).
+
+### 9.5 Mejoras de CSS
+
+- `.chip-saldo` (pill verde para el saldo).
+- `.check-box` con acento rojo al seleccionar (el `mark` queda blanco).
 
 ---
 
@@ -139,3 +185,6 @@ Conectan eventos de la vista con los servicios y traducen excepciones a alertas.
 - [x] Excepciones personalizadas capturadas en el controlador.
 - [x] Persistencia JSON inmediata con hilos.
 - [x] MVC estricto, SOLID, KISS, modular (≤300 líneas/archivo).
+- [x] Módulo "Mis compras" con historial y métricas.
+- [x] Buscador en tiempo real en el catálogo.
+- [x] "Reproducir todo" con cola de reproducción en playlists.

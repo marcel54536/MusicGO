@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import musicgo.app.Vista;
@@ -28,9 +29,11 @@ public class CatalogoVista implements Vista {
     private final VBox raiz = new VBox(Tema.ESPACIO);
     private final FlowPane grid = new FlowPane(Tema.ESPACIO, Tema.ESPACIO);
     private final HBoxFiltros filtros = new HBoxFiltros();
+    private final TextField busqueda = Componentes.campo("Buscar por título o artista...");
 
     private Catalogo catalogo;
     private String filtro = "todo";
+    private String texto = "";
 
     private Consumer<Audio> onReproducir = a -> { };
     private Consumer<Audio> onAgregarPlaylist = a -> { };
@@ -43,7 +46,11 @@ public class CatalogoVista implements Vista {
         scroll.setStyle("-fx-background-color: transparent;");
         VBox.setVgrow(scroll, javafx.scene.layout.Priority.ALWAYS);
         filtros.alFiltrar(f -> { filtro = f; pintar(); });
-        raiz.getChildren().addAll(Componentes.titulo("Explorar"), filtros, scroll);
+        busqueda.textProperty().addListener((o, a, b) -> { texto = b.trim().toLowerCase(); pintar(); });
+        busqueda.setPrefWidth(280);
+        var cabecera = Componentes.hbox(Tema.ESPACIO,
+                Componentes.titulo("Explorar"), Componentes.espaciador(), busqueda);
+        raiz.getChildren().addAll(cabecera, filtros, scroll);
     }
 
     public void render(Catalogo catalogo) {
@@ -59,14 +66,28 @@ public class CatalogoVista implements Vista {
             for (Audio a : catalogo.getAudios()) {
                 if (filtro.equals("canciones") && !a.getTipo().equals("cancion")) continue;
                 if (filtro.equals("podcasts") && !a.getTipo().equals("episodio")) continue;
+                if (!coincide(a.getTitulo(), a.creditos())) continue;
                 grid.getChildren().add(tarjetaAudio(a));
             }
         }
         if (filtro.equals("todo") || filtro.equals("productos")) {
             for (Producto p : catalogo.getProductos()) {
+                if (!coincide(p.getNombre(), p.getDescripcion())) continue;
                 grid.getChildren().add(tarjetaProducto(p));
             }
         }
+        if (grid.getChildren().isEmpty()) {
+            grid.getChildren().add(Componentes.textoSuave("Sin resultados para tu búsqueda."));
+        }
+    }
+
+    /** True si algún campo contiene el texto buscado (o si no hay búsqueda). */
+    private boolean coincide(String... campos) {
+        if (texto.isEmpty()) return true;
+        for (String c : campos) {
+            if (c != null && c.toLowerCase().contains(texto)) return true;
+        }
+        return false;
     }
 
     private VBox tarjetaAudio(Audio a) {

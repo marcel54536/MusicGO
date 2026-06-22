@@ -37,6 +37,7 @@ public class PlaylistsVista implements Vista {
     private Consumer<String> onCrear = n -> { };
     private Consumer<Playlist> onEliminar = p -> { };
     private Consumer<Playlist> onCompartir = p -> { };
+    private Consumer<Playlist> onReproducirTodo = p -> { };
     private BiConsumer<Playlist, String> onQuitar = (p, id) -> { };
 
     public PlaylistsVista() {
@@ -75,14 +76,17 @@ public class PlaylistsVista implements Vista {
     private void mostrarDetalle(Playlist p) {
         detalle.getChildren().clear();
         if (p == null) return;
+        Button reproducir = Componentes.botonPrimario("▶ Reproducir todo");
         Button compartir = Componentes.botonSecundario("Compartir");
         Button eliminar = Componentes.botonGhost("Eliminar playlist");
+        reproducir.setDisable(p.cantidadAudios() == 0);
+        reproducir.setOnAction(e -> onReproducirTodo.accept(p));
         compartir.setOnAction(e -> onCompartir.accept(p));
         eliminar.setOnAction(e -> onEliminar.accept(p));
         detalle.getChildren().addAll(
                 Componentes.subtitulo(p.getNombre()),
                 Componentes.textoSuave(p.cantidadAudios() + " audios · " + p.getId()),
-                Componentes.hbox(Tema.ESPACIO_S, compartir, eliminar));
+                Componentes.hbox(Tema.ESPACIO_S, reproducir, compartir, eliminar));
         for (Audio a : p.getContenido()) {
             Button quitar = Componentes.botonGhost("Quitar");
             quitar.setOnAction(e -> onQuitar.accept(p, a.getId()));
@@ -119,6 +123,7 @@ public class PlaylistsVista implements Vista {
     public void setOnCrear(Consumer<String> c)              { this.onCrear = c; }
     public void setOnEliminar(Consumer<Playlist> c)         { this.onEliminar = c; }
     public void setOnCompartir(Consumer<Playlist> c)        { this.onCompartir = c; }
+    public void setOnReproducirTodo(Consumer<Playlist> c)   { this.onReproducirTodo = c; }
     public void setOnQuitar(BiConsumer<Playlist, String> c) { this.onQuitar = c; }
 
     @Override

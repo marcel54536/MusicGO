@@ -19,14 +19,17 @@ public class PlaylistControlador {
 
     private final AppContext ctx;
     private final Usuario usuario;
+    private final ReproductorControlador reproductor;
     private final PlaylistsVista vista = new PlaylistsVista();
 
-    public PlaylistControlador(AppContext ctx, Usuario usuario) {
+    public PlaylistControlador(AppContext ctx, Usuario usuario, ReproductorControlador reproductor) {
         this.ctx = ctx;
         this.usuario = usuario;
+        this.reproductor = reproductor;
         vista.setOnCrear(this::crear);
         vista.setOnEliminar(this::eliminar);
         vista.setOnCompartir(this::compartir);
+        vista.setOnReproducirTodo(p -> reproductor.reproducirCola(p.getContenido()));
         vista.setOnQuitar(this::quitar);
     }
 
